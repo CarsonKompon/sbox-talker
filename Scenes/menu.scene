@@ -1,0 +1,146 @@
+{
+  "Id": "7dc60fbe-0c15-4279-b924-bb2d9b371175",
+  "GameObjects": [
+    {
+      "Id": "1ef5ab49-a9e4-449c-89c9-226dbe5fd5e5",
+      "Name": "Camera",
+      "Position": "333.2234,-3797.058,-12713.46",
+      "Rotation": "0.09813427,-0.06290764,0.8361359,0.5359935",
+      "Tags": "maincamera",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "CameraComponent",
+          "__enabled": true,
+          "BackgroundColor": "0.33333,0.46275,0.52157,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "IsMainCamera": true,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
+        }
+      ]
+    },
+    {
+      "Id": "ae6115dc-1587-4a7c-8798-16aff994a770",
+      "Name": "Screen",
+      "Position": "149.9949,149.995,-212.125",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "ScreenPanel",
+          "__enabled": true,
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__version": 0,
+          "__type": "MainMenuPanel",
+          "__enabled": true,
+          "GameScene": "scenes/minimal.scene"
+        }
+      ]
+    },
+    {
+      "Id": "b5beafc1-0c26-4d4a-8a1c-8cfed74c9174",
+      "Name": "Sun",
+      "Position": "-60.11557,76.27254,230.6401",
+      "Rotation": "-0.00000002286401,0.3835945,0.0000000000000006629997,0.9235017",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "DirectionalLight",
+          "__enabled": true,
+          "LightColor": "0.91373,0.98039,1,1",
+          "Shadows": true,
+          "SkyColor": "0.05882,0.07451,0.08235,1"
+        }
+      ]
+    },
+    {
+      "Id": "813c8d10-c62a-4e0d-83b8-0bf32363db3d",
+      "Name": "Object",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "MapInstance",
+          "__enabled": true,
+          "MapName": "cmb.flatgrass_13",
+          "OnMapLoaded": null,
+          "OnMapUnloaded": null,
+          "UseMapFromLaunch": false
+        }
+      ],
+      "Children": []
+    },
+    {
+      "Id": "da24bfa8-7a87-49f4-a87d-9024f7af76ce",
+      "Name": "2D Skybox",
+      "Position": "-697.1929,-2781.656,-12158.8",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "SkyBox2D",
+          "__enabled": true,
+          "SkyMaterial": "materials/bluecloudskybox.vmat",
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__version": 0,
+          "__type": "Rotator",
+          "__enabled": true,
+          "RotateSpeed": "0,-1,0"
+        }
+      ]
+    },
+    {
+      "Id": "e159d53c-2726-48f8-be40-9425a3b5b16d",
+      "Name": "2D Skybox (1)",
+      "Position": "-697.1929,-2781.656,-12158.8",
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "SkyBox2D",
+          "__enabled": true,
+          "SkyMaterial": "materials/skybox/table_mountain_2_puresky.vmat",
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__version": 0,
+          "__type": "Rotator",
+          "__enabled": true,
+          "RotateSpeed": "0,-1,0"
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 30,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true
+  },
+  "Title": "menu",
+  "Description": "",
+  "__references": [
+    "polyhaven.table_mountain_2_puresky",
+    "semxy.bluecloudskybox"
+  ]
+}

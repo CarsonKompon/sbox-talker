@@ -1,0 +1,109 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Network;
+@using Sandbox.Diagnostics;
+@using System.Collections.Generic;
+@using System.Threading.Tasks;
+@using System.Linq;
+@inherits PanelComponent
+
+<root>
+	
+	<div class="header">
+		<h1>Talker 🗣️🗣️🗣️</h1>
+		<p>(Walker but multiplayer with Voice Chat)</p>
+	</div>
+	<div class="content">
+		<div class="map-select">
+			<PackageList ShowFilters="@true" style="padding-bottom: 50px;" Query="type:map sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList>
+		</div>
+
+		<div class="lobby-list">
+
+			<div class="header">
+				<div class="title">Server List</div>
+			</div>
+
+			@if (refreshing)
+			{
+				<div>Refreshing..</div>
+			}
+			else if (list.Count == 0)
+			{
+				<div>No lobbies were found</div>
+			}
+			else
+			{
+				@foreach (var lobby in list)
+				{
+					<div class="button" onclick=@(() => OpenLobby( lobby ) )>
+
+						<div class="title">
+							@lobby.Name
+						</div>
+
+						<div class="meta">
+
+							<div class="map">
+								@lobby.Map
+							</div>
+
+							<div class="count">
+								@lobby.Members / @lobby.MaxMembers
+							</div>
+
+						</div>
+
+					</div>
+				}
+			}
+		</div>
+	</div>
+</root>
+
+@code
+{
+
+	bool refreshing;
+    List<LobbyInformation> list = new();
+	[Property] SceneFile GameScene;
+
+	protected override void OnEnabled()
+    {
+        base.OnEnabled();
+
+        Assert.True(GameObject.IsValid());
+
+        _ = RefreshLobbyList();
+    }
+
+	async Task RefreshLobbyList()
+    {
+        while ( true )
+        {
+            refreshing = true;
+            StateHasChanged();
+
+            list = await GameNetworkSystem.QueryLobbies();
+
+            refreshing = false;
+            StateHasChanged();
+
+            await Task.DelayRealtimeSeconds( 5.0f );
+        }
+    }
+
+	void OpenLobby( LobbyInformation lobby )
+    {
+        GameNetworkSystem.Connect( lobby.LobbyId );
+    }
+
+	void OnPackageSelected( Package package )
+    {
+		LaunchArguments.Map = package.FullIdent;
+		GameManager.ActiveScene.Load(GameScene);
+    }
+	
+	
+	protected override int BuildHash() => System.HashCode.Combine( refreshing );
+}

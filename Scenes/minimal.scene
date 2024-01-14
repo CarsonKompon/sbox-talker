@@ -1,0 +1,276 @@
+{
+  "Id": "7106c1ab-d17c-4ceb-98ae-b8bf53696a78",
+  "GameObjects": [
+    {
+      "Id": "26d0dcec-cc1f-48ab-a028-902e9bc770ca",
+      "Name": "Network Manager",
+      "Position": "-802.415,68.83928,1006.414",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "NetworkManager",
+          "__enabled": true,
+          "PlayerPrefab": "ecab56e9-aed9-40fd-9963-373b524d06a0",
+          "StartServer": true
+        }
+      ]
+    },
+    {
+      "Id": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
+      "Name": "Camera",
+      "Position": "-1102.415,68.83928,1006.414",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "CameraComponent",
+          "__enabled": true,
+          "BackgroundColor": "0.33333,0.46275,0.52157,1",
+          "ClearFlags": "All",
+          "FieldOfView": 78,
+          "IsMainCamera": true,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 20000,
+          "ZNear": 1
+        },
+        {
+          "__version": 0,
+          "__type": "Tonemapping",
+          "__enabled": true,
+          "ExposureCompensation": 0,
+          "MaximumExposure": 3,
+          "MinimumExposure": 0,
+          "Rate": 1
+        },
+        {
+          "__version": 0,
+          "__type": "Bloom",
+          "__enabled": true,
+          "BloomColor": {
+            "color": [
+              {
+                "c": "1,1,1,1"
+              },
+              {
+                "t": 1,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "BloomCurve": [
+            {
+              "in": -1.6799997,
+              "out": 1.6799997
+            },
+            {
+              "x": 1,
+              "y": 1,
+              "in": -0.57142836,
+              "out": 0.57142836
+            }
+          ],
+          "Mode": "Additive",
+          "Strength": 0.2,
+          "Threshold": 0.2,
+          "ThresholdWidth": 0.2
+        },
+        {
+          "__version": 0,
+          "__type": "Sharpen",
+          "__enabled": true,
+          "Scale": 0.2
+        },
+        {
+          "__version": 0,
+          "__type": "FilmGrain",
+          "__enabled": true,
+          "Intensity": 0.02,
+          "Response": 2
+        },
+        {
+          "__version": 0,
+          "__type": "Vignette",
+          "__enabled": true,
+          "Center": "0.5,0.5",
+          "Color": "0,0,0,1",
+          "Intensity": 0.51,
+          "Roundness": 0,
+          "Smoothness": 1
+        }
+      ]
+    },
+    {
+      "Id": "c36003ca-63aa-4e8f-b660-0d4447aadcfa",
+      "Name": "Screen",
+      "Position": "-802.415,68.83928,1006.414",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "ScreenPanel",
+          "__enabled": true,
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__version": 0,
+          "__type": "HangoutHud",
+          "__enabled": true
+        }
+      ]
+    },
+    {
+      "Id": "c2e2b2e8-62e8-4ef3-8336-002a3a68f88e",
+      "Name": "Map Loader",
+      "Position": "22.10468,10.23383,11.85129",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "MapInstance",
+          "__enabled": true,
+          "MapName": "carsonk.home_waiting_room",
+          "OnMapLoaded": null,
+          "OnMapUnloaded": null,
+          "UseMapFromLaunch": true
+        },
+        {
+          "__version": 0,
+          "__type": "MapPlayerSpawner",
+          "__enabled": true
+        }
+      ],
+      "Children": []
+    },
+    {
+      "Id": "ecab56e9-aed9-40fd-9963-373b524d06a0",
+      "Name": "Player",
+      "Position": "-1102.415,68.83928,942.4136",
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "CharacterController",
+          "__enabled": true,
+          "Acceleration": 32,
+          "GroundAngle": 45,
+          "Height": 64,
+          "IgnoreLayers": "trigger",
+          "Radius": 16,
+          "StepHeight": 18
+        },
+        {
+          "__version": 0,
+          "__type": "PlayerController",
+          "__enabled": true,
+          "AnimationHelper": "230cde41-6498-4e6c-8777-28f4a8ea7ec3",
+          "CameraDistance": 0,
+          "CharacterController": "ecab56e9-aed9-40fd-9963-373b524d06a0",
+          "CrouchMoveSpeed": 64,
+          "RunMoveSpeed": 190,
+          "SprintMoveSpeed": 320,
+          "WalkMoveSpeed": 190
+        }
+      ],
+      "Children": [
+        {
+          "Id": "230cde41-6498-4e6c-8777-28f4a8ea7ec3",
+          "Name": "Player Body",
+          "Position": "0,0,0",
+          "Enabled": true,
+          "Components": [
+            {
+              "__version": 0,
+              "__type": "SkinnedModelRenderer",
+              "__enabled": true,
+              "BodyGroups": 341,
+              "BoneMergeTarget": null,
+              "CreateBoneObjects": false,
+              "MaterialGroup": null,
+              "MaterialOverride": null,
+              "Model": "models/citizen/citizen.vmdl",
+              "RenderType": "ShadowsOnly",
+              "Tint": "1,1,1,1"
+            },
+            {
+              "__version": 0,
+              "__type": "CitizenAnimationHelper",
+              "__enabled": true,
+              "BodyWeight": 1,
+              "EyeSource": null,
+              "EyesWeight": 1,
+              "HeadWeight": 1,
+              "Height": 1,
+              "IkLeftFoot": null,
+              "IkLeftHand": null,
+              "IkRightFoot": null,
+              "IkRightHand": null,
+              "LookAt": null,
+              "LookAtEnabled": false,
+              "Target": "230cde41-6498-4e6c-8777-28f4a8ea7ec3"
+            }
+          ]
+        },
+        {
+          "Id": "4e1e269f-d342-49a8-ad35-b355dc792fb2",
+          "Name": "Physics Pusher",
+          "Position": "0,0,22.68671",
+          "Components": [
+            {
+              "__version": 0,
+              "__type": "BoxCollider",
+              "__enabled": true,
+              "Center": "0,0,0",
+              "IsTrigger": false,
+              "Scale": "36,36,40",
+              "Static": false,
+              "Surface": null
+            }
+          ]
+        },
+        {
+          "Id": "55619bff-2a66-4eba-aef2-4feff11802b6",
+          "Name": "Voice",
+          "Position": "0,0,0",
+          "Enabled": true,
+          "Components": [
+            {
+              "__version": 0,
+              "__type": "Voice",
+              "__enabled": true,
+              "Loopback": false,
+              "Mode": "AlwaysOn",
+              "MorphFadeSpeed": 50,
+              "MorphScale": 2,
+              "PushToTalkInput": "voice",
+              "Renderer": "230cde41-6498-4e6c-8777-28f4a8ea7ec3",
+              "Volume": 1,
+              "WorldspacePlayback": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 60,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true
+  },
+  "Title": "minimal",
+  "Description": "",
+  "__references": []
+}

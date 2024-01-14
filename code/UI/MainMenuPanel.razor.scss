@@ -1,0 +1,102 @@
+MainMenuPanel
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	flex-direction: column;
+	font-family: Poppins;
+	color: white;
+	font-size: 32px;
+	padding: 32px;
+	pointer-events: all;
+	gap: 16px;
+	
+	> .header
+	{
+		justify-content: space-between;
+		align-items: flex-end;
+
+		h1
+		{
+			font-size: 92px;
+			font-weight: 800;
+		}
+		
+	}
+
+	> .content
+	{
+		gap: 32px;
+
+		> .map-select
+		{
+			flex-grow: 1;
+			background-color: rgba(0, 0, 0, 0.5);
+			padding: 16px;
+		}
+
+		> .lobby-list
+		{
+			width: 500px;
+			flex-direction: column;
+			overflow: scroll;
+			gap: 5px;
+			flex-shrink: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			padding: 16px;
+
+			.title
+			{
+				font-size: 48px;
+				font-family: Poppins;
+				color: #fff;
+			}
+			
+			> .button
+			{
+				background-color: rgba(0, 0, 0, 0.5);
+				color: #aaa;
+				padding: 10px;
+				border-radius: 8px;
+				gap: 2px;
+				width: 280px;
+				cursor: pointer;
+				width: 100%;
+				flex-direction: column;
+				pointer-events: all;
+
+				.title
+				{
+					flex-grow: 1;
+					font-weight: bold;
+					font-size: 32px;
+				}
+
+				.meta
+				{
+					gap: 10px;
+					font-size: 24px;
+
+					.map
+					{
+						flex-grow: 1;
+					}
+
+					.count
+					{
+						white-space: nowrap;
+					}
+				}
+
+				&:hover
+				{
+					color: #fff;
+					background-color: rgba(0, 0, 0, 0.8);
+				}
+			}
+		}
+	}		
+
+}

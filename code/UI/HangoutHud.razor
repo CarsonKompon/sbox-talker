@@ -1,0 +1,32 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	@* @if(PlayerController.Local is not null)
+	{
+		int index = 0;
+
+		<div class="voice-list">
+			@foreach(var player in Scene.Components.GetAll<PlayerController>())
+			{
+				var voice = player.Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
+				if(voice is null) continue;
+				index++;
+				if(voice.IsRecording)
+				{
+					<div class="voice-entry">
+						<img src=@($"avatar:{player.SteamId}") class="avatar" />
+						<label class="name">@player.GameObject.Name</label>
+					</div>				
+				}
+			}
+		</div>
+	} *@
+</root>
+
+@code
+{
+
+	@* protected override int BuildHash() => System.HashCode.Combine( Time.Now ); *@
+}
