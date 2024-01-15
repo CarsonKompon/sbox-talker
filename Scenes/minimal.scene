@@ -13,6 +13,11 @@
           "__enabled": true,
           "PlayerPrefab": "ecab56e9-aed9-40fd-9963-373b524d06a0",
           "StartServer": true
+        },
+        {
+          "__version": 0,
+          "__type": "MapPlayerSpawner",
+          "__enabled": true
         }
       ]
     },
@@ -152,7 +157,7 @@
           "__version": 0,
           "__type": "MapInstance",
           "__enabled": true,
-          "MapName": "hld/minejacked",
+          "MapName": "nolankicks.onlyupmap",
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
           "UseMapFromLaunch": true

@@ -20,6 +20,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 	/// </summary>
 	[Property] public GameObject PlayerPrefab { get; set; }
 
+	public List<Connection> Connections = new();
+
 	public List<PlayerController> Players => GameManager.ActiveScene.Components.GetAll<PlayerController>(FindMode.EnabledInSelfAndDescendants).ToList();
 
 	protected override void OnAwake()
@@ -51,6 +53,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 	public void OnActive(Connection channel)
 	{
 		Log.Info($"Player '{channel.DisplayName}' has joined the game");
+
+		Connections.Add(channel);
 
 		if (PlayerPrefab is null)
 			return;
@@ -92,7 +96,7 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 
 	public void OnDisconnected(Connection channel)
 	{
-
+		Connections.Remove(channel);
 	}
 
 	public void OnBecameHost(Connection previousHost)

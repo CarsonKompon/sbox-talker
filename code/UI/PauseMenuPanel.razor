@@ -117,8 +117,16 @@
     {
 		@* LaunchArguments.Map = package.FullIdent;
 		GameManager.ActiveScene.Load(GameScene); *@
+
+		ChangeMap(package.FullIdent);
     }
 	
+	[Broadcast]
+	void ChangeMap(string mapIdent)
+	{
+		var mapInstance = Scene.Components.Get<MapInstance>(FindMode.EnabledInSelfAndDescendants);
+		mapInstance.MapName = mapIdent;
+	}
 	
 	protected override int BuildHash() => System.HashCode.Combine( refreshing, Visible );
 }
