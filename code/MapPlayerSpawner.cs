@@ -32,6 +32,18 @@ public sealed class MapPlayerSpawner : Component
 	void RespawnPlayers()
 	{
 
+		// var map = Components.Get<MapInstance>();
+		// foreach (var obj in map.GameObject.Children)
+		// {
+		// 	if (obj.Components.Get<Rigidbody>() is Rigidbody rb)
+		// 	{
+		// 		var newObj = obj.Clone(obj.Transform.World);
+		// 		newObj.Components.Create<Grabbable>();
+		// 		newObj.Network.Spawn();
+		// 		obj.Destroy();
+		// 	}
+		// }
+
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
 		if (spawnPoints.Length == 0)
 			return;

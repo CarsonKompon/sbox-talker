@@ -22,5 +22,5 @@
 		Transform.Rotation = Rotation.LookAt( camera.Transform.Position - Transform.Position, Vector3.Up );
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Name );
+	protected override int BuildHash() => System.HashCode.Combine( Name, Player.SteamId );
 }

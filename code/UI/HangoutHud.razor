@@ -33,6 +33,10 @@
 				<div class="player-entry">
 					<img src=@($"avatar:{player.SteamId}") class="avatar" />
 					<label class="name">@player.GameObject.Name</label>
+					@if((NetworkManager.Instance.Host?.SteamId ?? 0) == (ulong)player.SteamId)
+					{
+						<i>verified</i>
+					}
 				</div>
 			}
 		</div>

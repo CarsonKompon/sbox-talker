@@ -19,16 +19,20 @@ public sealed class PlayerController : Component
 	[Property] GameObject LeftPoint { get; set; }
 	[Property] GameObject RightPoint { get; set; }
 	public bool IsFirstPerson => CameraDistance == 0f;
+	public Vector3 HeadPosition => Transform.Position + Vector3.Up * 64f * (Crouching ? 0.5f : 1f);
 
 	[Property] public CitizenAnimationHelper AnimationHelper { get; set; }
 
-	public static PlayerController Local => NetworkManager.Instance.Players.FirstOrDefault(x => x.SteamId == (ulong)Game.SteamId);
+	public static PlayerController Local => NetworkManager.Instance.Players.FirstOrDefault(x => x.SteamId == Game.SteamId);
 
-	[Sync] public ulong SteamId { get; set; }
+	[Sync] public long SteamId { get; set; }
 	[Sync] public bool Crouching { get; set; }
 	[Sync] public Vector3 LookForward { get; set; }
 	[Sync] public bool IsNoclipping { get; set; } = false;
 	[Sync] public bool HasFlashlight { get; set; } = false;
+	[Sync] public int PointState { get; set; } = 0;
+	[Sync] public int Pose { get; set; } = 0;
+	public GameObject Grabbing { get; set; } = null;
 
 	public Angles EyeAngles;
 	public Vector3 WishVelocity;
@@ -37,12 +41,18 @@ public sealed class PlayerController : Component
 	Angles CamAngles = new Angles(0, 0, 0);
 	bool isFreeCam = false;
 	RealTimeUntil freeCamTime = 0f;
+	Voice voice;
 
 	protected override void OnUpdate()
 	{
+		voice ??= Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
+
 		if (!IsProxy)
 		{
+			SteamId = Game.SteamId;
+
 			MouseInput();
+			CheckForInteracts();
 
 			if (Input.Pressed("Voice"))
 			{
@@ -53,10 +63,25 @@ public sealed class PlayerController : Component
 				}
 			}
 
+			PointState = 0;
+			if (Input.Down("attack1")) PointState = 4;
+			else if (Input.Down("Menu") && Input.Down("Use")) PointState = 3;
+			else if (Input.Down("Use")) PointState = 2;
+			else if (Input.Down("Menu")) PointState = 1;
+
 			if (Input.Pressed("Flashlight"))
 			{
 				HasFlashlight = !HasFlashlight;
 			}
+
+			if (Input.Pressed("slot1")) Pose = 0;
+			if (Input.Pressed("slot2")) Pose = 1;
+			if (Input.Pressed("slot3")) Pose = 2;
+			if (Input.Pressed("slot4")) Pose = 3;
+			if (Input.Pressed("slot5")) Pose = 4;
+			if (Input.Pressed("slot6")) Pose = 5;
+			if (Input.Pressed("slot7")) Pose = 6;
+			if (Input.Pressed("slot8")) Pose = 7;
 
 			Transform.Rotation = new Angles(0, EyeAngles.yaw, 0);
 		}
@@ -79,8 +104,10 @@ public sealed class PlayerController : Component
 
 		if (IsNoclipping)
 		{
-			Transform.Position += Input.AnalogMove * CamAngles * Time.Delta * 1000.0f;
-			WishVelocity = Input.AnalogMove * 1000.0f;
+			var movement = Input.AnalogMove * CamAngles * Time.Delta * 1000.0f;
+			if (Input.Down("run")) movement *= 3;
+			Transform.Position += movement;
+			WishVelocity = Input.AnalogMove * 200.0f;
 
 			return;
 		}
@@ -330,8 +357,52 @@ public sealed class PlayerController : Component
 		AnimationHelper.IsGrounded = CharacterController.IsOnGround;
 		AnimationHelper.DuckLevel = Crouching ? 1.0f : 0.0f;
 		AnimationHelper.IsNoclipping = IsNoclipping;
+		AnimationHelper.Target.Set("skid", (voice.LaughterScore > .4f) ? voice.LaughterScore * 2 : 0f);
+		AnimationHelper.Target.Set("holdtype_pose", Pose);
 
 		AnimationHelper.WithLook(LookForward);
+
+		if (PointState == 0)
+		{
+			AnimationHelper.IkLeftHand = null;
+			AnimationHelper.IkRightHand = null;
+			AnimationHelper.HoldType = CitizenAnimationHelper.HoldTypes.None;
+		}
+		else
+		{
+			if (PointState == 1 || PointState == 3)
+			{
+				AnimationHelper.IkLeftHand = LeftPoint;
+			}
+			if (PointState == 2 || PointState == 3)
+			{
+				AnimationHelper.IkRightHand = RightPoint;
+			}
+			if (PointState == 4)
+			{
+				AnimationHelper.HoldType = CitizenAnimationHelper.HoldTypes.Pistol;
+			}
+		}
+	}
+
+	void CheckForInteracts()
+	{
+		var interactTrace = Scene.Trace.Ray(Scene.Camera.Transform.Position, Scene.Camera.Transform.Position + Scene.Camera.Transform.Rotation.Forward * 200f)
+			.WithoutTags("player")
+			.Run();
+
+
+		if (interactTrace.Hit && interactTrace.GameObject is GameObject interactObject)
+		{
+			var grabbable = interactObject.Components.Get<Grabbable>();
+			if (grabbable is not null && grabbable.Network.OwnerId == Guid.Empty)
+			{
+				if (Input.Pressed("Attack1"))
+				{
+					grabbable.StartGrabbing(this);
+				}
+			}
+		}
 	}
 
 }

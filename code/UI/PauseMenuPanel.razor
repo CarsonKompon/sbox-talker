@@ -36,7 +36,7 @@
 			{
 				@foreach (var lobby in list)
 				{
-					@if(NetworkManager.Instance.Players.Any(x => x.SteamId == lobby.OwnerId))
+					@if(NetworkManager.Instance.Players.Any(x => x.SteamId == (long)lobby.OwnerId))
 					{
 						continue;
 					}
@@ -118,7 +118,24 @@
 		@* LaunchArguments.Map = package.FullIdent;
 		GameManager.ActiveScene.Load(GameScene); *@
 
-		ChangeMap(package.FullIdent);
+		foreach(var connection in NetworkManager.Instance.Connections)
+		{
+			Log.Info($"Connection: {connection.SteamId} {connection == NetworkManager.Instance.Host}");
+		}
+
+		if(Game.SteamId == NetworkManager.Instance.HostSteamId)
+		{
+			ChangeMap(package.FullIdent);
+			return;
+		}
+
+		@* ChangeMap(package.FullIdent); *@
+
+		@* if(NetworkManager.Instance.Connections.Any(x => x.SteamId == (ulong)Game.SteamId && x.IsHost))
+		{
+			ChangeMap(package.FullIdent);
+			return;
+		} *@
     }
 	
 	[Broadcast]
