@@ -2,7 +2,7 @@ using Sandbox;
 using System;
 using System.Linq;
 
-public sealed class MapPlayerSpawner : Component
+public class MapPlayerSpawner : Component
 {
 	protected override void OnEnabled()
 	{
@@ -10,6 +10,7 @@ public sealed class MapPlayerSpawner : Component
 
 		if (Components.TryGet<MapInstance>(out var mapInstance))
 		{
+			mapInstance.MapName = Scene.Title;
 			mapInstance.OnMapLoaded += RespawnPlayers;
 
 			// already loaded
@@ -45,17 +46,16 @@ public sealed class MapPlayerSpawner : Component
 		// }
 
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
-		if (spawnPoints.Length == 0)
-			return;
-		var randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)];
+		var randomSpawnPoint = new Transform(Vector3.Zero, Rotation.Identity);
+		if (spawnPoints.Length > 0) randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)].Transform.World;
 
 		foreach (var player in Scene.GetAllComponents<PlayerController>().ToArray())
 		{
-			player.Transform.Position = randomSpawnPoint.Transform.Position;
+			player.Transform.Position = randomSpawnPoint.Position;
 
 			if (player.Components.TryGet<PlayerController>(out var pc))
 			{
-				pc.EyeAngles = randomSpawnPoint.Transform.Rotation.Angles();
+				pc.EyeAngles = randomSpawnPoint.Rotation.Angles();
 			}
 
 		}

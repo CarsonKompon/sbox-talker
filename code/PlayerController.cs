@@ -63,6 +63,15 @@ public sealed class PlayerController : Component
 				}
 			}
 
+			if (Input.Pressed("reload"))
+			{
+				var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
+				var randomSpawnPoint = Vector3.Zero;
+				if (spawnPoints.Length > 0) randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)].Transform.Position;
+
+				Transform.Position = randomSpawnPoint;
+			}
+
 			PointState = 0;
 			if (Input.Down("attack1")) PointState = 4;
 			else if (Input.Down("Menu") && Input.Down("Use")) PointState = 3;
