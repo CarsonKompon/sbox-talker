@@ -15,6 +15,9 @@ public sealed class PlayerController : Component
 	[Property] public float RunMoveSpeed { get; set; } = 190.0f;
 	[Property] public float SprintMoveSpeed { get; set; } = 320.0f;
 	[Property] public float CameraDistance { get; set; } = 0f;
+	[Property] GameObject Flashlight { get; set; }
+	[Property] GameObject LeftPoint { get; set; }
+	[Property] GameObject RightPoint { get; set; }
 	public bool IsFirstPerson => CameraDistance == 0f;
 
 	[Property] public CitizenAnimationHelper AnimationHelper { get; set; }
@@ -24,6 +27,8 @@ public sealed class PlayerController : Component
 	[Sync] public ulong SteamId { get; set; }
 	[Sync] public bool Crouching { get; set; }
 	[Sync] public Vector3 LookForward { get; set; }
+	[Sync] public bool IsNoclipping { get; set; } = false;
+	[Sync] public bool HasFlashlight { get; set; } = false;
 
 	public Angles EyeAngles;
 	public Vector3 WishVelocity;
@@ -39,6 +44,20 @@ public sealed class PlayerController : Component
 		{
 			MouseInput();
 
+			if (Input.Pressed("Voice"))
+			{
+				IsNoclipping = !IsNoclipping;
+				if (!IsNoclipping)
+				{
+					CharacterController.Velocity = Input.AnalogMove * CamAngles * 1000.0f;
+				}
+			}
+
+			if (Input.Pressed("Flashlight"))
+			{
+				HasFlashlight = !HasFlashlight;
+			}
+
 			Transform.Rotation = new Angles(0, EyeAngles.yaw, 0);
 		}
 
@@ -49,12 +68,22 @@ public sealed class PlayerController : Component
 		{
 			modelRenderer.RenderType = renderType;
 		}
+
+		Flashlight.Enabled = HasFlashlight;
 	}
 
 	protected override void OnFixedUpdate()
 	{
 		if (IsProxy)
 			return;
+
+		if (IsNoclipping)
+		{
+			Transform.Position += Input.AnalogMove * CamAngles * Time.Delta * 1000.0f;
+			WishVelocity = Input.AnalogMove * 1000.0f;
+
+			return;
+		}
 
 		CrouchingInput();
 		MovementInput();
@@ -300,6 +329,7 @@ public sealed class PlayerController : Component
 		AnimationHelper.WithVelocity(CharacterController.Velocity);
 		AnimationHelper.IsGrounded = CharacterController.IsOnGround;
 		AnimationHelper.DuckLevel = Crouching ? 1.0f : 0.0f;
+		AnimationHelper.IsNoclipping = IsNoclipping;
 
 		AnimationHelper.WithLook(LookForward);
 	}

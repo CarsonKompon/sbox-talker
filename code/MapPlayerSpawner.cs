@@ -33,7 +33,9 @@ public sealed class MapPlayerSpawner : Component
 	{
 
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
-		var randomSpawnPoint = spawnPoints[Random.Shared.Next(0, spawnPoints.Length)];
+		if (spawnPoints.Length == 0)
+			return;
+		var randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)];
 
 		foreach (var player in Scene.GetAllComponents<PlayerController>().ToArray())
 		{
