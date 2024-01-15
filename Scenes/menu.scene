@@ -4,7 +4,7 @@
     {
       "Id": "1ef5ab49-a9e4-449c-89c9-226dbe5fd5e5",
       "Name": "Camera",
-      "Position": "333.2234,-3797.058,-12713.46",
+      "Position": "253.3585,-3623.239,-12664.05",
       "Rotation": "0.09813427,-0.06290764,0.8361359,0.5359935",
       "Tags": "maincamera",
       "Enabled": true,
@@ -106,26 +106,6 @@
           "RotateSpeed": "0,-1,0"
         }
       ]
-    },
-    {
-      "Id": "e159d53c-2726-48f8-be40-9425a3b5b16d",
-      "Name": "2D Skybox (1)",
-      "Position": "-697.1929,-2781.656,-12158.8",
-      "Components": [
-        {
-          "__version": 0,
-          "__type": "SkyBox2D",
-          "__enabled": true,
-          "SkyMaterial": "materials/skybox/table_mountain_2_puresky.vmat",
-          "Tint": "1,1,1,1"
-        },
-        {
-          "__version": 0,
-          "__type": "Rotator",
-          "__enabled": true,
-          "RotateSpeed": "0,-1,0"
-        }
-      ]
     }
   ],
   "SceneProperties": {
@@ -140,7 +120,6 @@
   "Title": "menu",
   "Description": "",
   "__references": [
-    "polyhaven.table_mountain_2_puresky",
     "semxy.bluecloudskybox"
   ]
 }

@@ -1,0 +1,60 @@
+{
+  "RootObject": {
+    "Id": "bcbc08c4-077c-4d06-b8ff-2e0834203dee",
+    "Name": "physics_prefab",
+    "Tags": "interact",
+    "Enabled": true,
+    "Components": [
+      {
+        "__version": 0,
+        "__type": "ModelRenderer",
+        "__enabled": true,
+        "BodyGroups": 18446744073709551615,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Model": "models/dev/box.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__version": 0,
+        "__type": "ModelCollider",
+        "__enabled": true,
+        "IsTrigger": false,
+        "Model": null,
+        "Static": false,
+        "Surface": null
+      },
+      {
+        "__version": 0,
+        "__type": "Rigidbody",
+        "__enabled": true,
+        "AngularDamping": 0,
+        "Gravity": true,
+        "LinearDamping": 0,
+        "Locking": {},
+        "RigidbodyFlags": 0,
+        "StartAsleep": false
+      },
+      {
+        "__version": 0,
+        "__type": "Grabbable",
+        "__enabled": true
+      },
+      {
+        "__version": 0,
+        "__type": "BoxCollider",
+        "__enabled": true,
+        "Center": "0,0,0",
+        "IsTrigger": false,
+        "Scale": "5,5,5",
+        "Static": false,
+        "Surface": null
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}

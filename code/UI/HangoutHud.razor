@@ -3,6 +3,11 @@
 @inherits PanelComponent
 
 <root>
+	@if(PlayerController.Local is not null && PlayerController.Local.IsFirstPerson)
+	{
+		<div class="crosshair" />
+	}
+
 	@* @if(PlayerController.Local is not null)
 	{
 		int index = 0;
@@ -23,8 +28,10 @@
 			}
 		</div>
 	} *@
-	@if(Input.Down("Score"))
-	{
+	<div class="menu @((Input.Down("Score") || (ModelList is not null && ModelList.HasFocus)) ? "" : "hidden")">
+		<div class="spawn-menu">
+			<PackageList @ref="ModelList" ShowFilters="@true" style="padding-bottom: 50px;" Query="type:model sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList>
+		</div>
 		<div class="player-list">
 			@foreach(var player in NetworkManager.Instance.Players)
 			{
@@ -40,11 +47,66 @@
 				</div>
 			}
 		</div>
+	</div>
+
+	@if(Input.Down("Menu") && PlayerController.Local is not null && PlayerController.Local.PointState == 0)
+	{
+		<div class="spawn-menu">
+
+		</div>
 	}
 </root>
 
 @code
 {
+	[Property] GameObject PhysicsPrefab { get; set; }
+
+	PackageList ModelList;
+
+	async void OnPackageSelected( Package package )
+    {
+		
+		var player = PlayerController.Local;
+		if(player is null) return;
+
+		@* var tr = Scene.Trace.Ray(player.HeadPosition, player.EyeAngles.Forward * 400f)
+			.Run(); *@
+
+		var tr = Scene.Trace.Ray(Scene.Camera.Transform.Position, Scene.Camera.Transform.Position + Scene.Camera.Transform.Rotation.Forward * 1000f)
+			.WithoutTags("player", "trigger")
+			.Run();
+
+		SpawnCloudModelAsync(package.FullIdent, tr.Hit ? tr.HitPosition : tr.EndPosition);
+    }
+
+	async void SpawnCloudModelAsync(string ident, Vector3 pos)
+	{
+		var package = await Package.FetchAsync(ident, false);
+		await package.MountAsync();
+
+		var mins = package.GetMeta("RenderMins", Vector3.Zero);
+		var maxs = package.GetMeta("RenderMaxs", Vector3.Zero);
+
+		var spawnPos = Transform.World;
+		spawnPos.Position = pos + (mins + maxs) * 0.5f;
+		var physicsObj = PhysicsPrefab.Clone(spawnPos, name: ident);
+		physicsObj.Network.Spawn();
+		physicsObj.Network.DropOwnership();
+
+		var model = Model.Load(package.GetMeta("PrimaryAsset", ""));
+		var modelRenderer = physicsObj.Components.Get<ModelRenderer>();
+		if(modelRenderer is not null)
+			modelRenderer.Model = model;
+		var modelCollider = physicsObj.Components.Get<ModelCollider>();
+		if(modelCollider is not null)
+			modelCollider.Model = model;
+		var rb = physicsObj.Components.Get<Rigidbody>();
+		if(rb is not null)
+			rb.Velocity = Vector3.Zero;
+		var grabbable = physicsObj.Components.Get<Grabbable>();
+		if(grabbable is not null)
+			grabbable.Init();
+	}
 
 	protected override int BuildHash() => System.HashCode.Combine( Time.Now );
 }

@@ -16,6 +16,8 @@ public sealed class PlayerController : Component
 	[Property] public float SprintMoveSpeed { get; set; } = 320.0f;
 	[Property] public float CameraDistance { get; set; } = 0f;
 	[Property] GameObject Flashlight { get; set; }
+	[Property] public GameObject LeftHand { get; set; }
+	[Property] public GameObject RightHand { get; set; }
 	[Property] GameObject LeftPoint { get; set; }
 	[Property] GameObject RightPoint { get; set; }
 	public bool IsFirstPerson => CameraDistance == 0f;
@@ -122,12 +124,22 @@ public sealed class PlayerController : Component
 		}
 
 		CrouchingInput();
+
+		if (Grabbing is not null && Input.Down("use"))
+		{
+			return;
+		}
+
 		MovementInput();
 	}
 
 	private void MouseInput()
 	{
 		bool updateEyes = true;
+		if (Grabbing is not null && Input.Down("use"))
+		{
+			return;
+		}
 		if (!IsFirstPerson)
 		{
 			if (!isFreeCam && Input.Down("attack2"))
@@ -165,7 +177,10 @@ public sealed class PlayerController : Component
 		LookForward = EyeAngles.ToRotation().Forward * 1024;
 
 		// Zoom input
-		CameraDistance = Math.Clamp(CameraDistance - Input.MouseWheel.y * 32f, 0f, 256f);
+		if (!Input.Down("Score"))
+		{
+			CameraDistance = Math.Clamp(CameraDistance - Input.MouseWheel.y * 32f, 0f, 256f);
+		}
 	}
 
 	float CurrentMoveSpeed
@@ -396,8 +411,10 @@ public sealed class PlayerController : Component
 
 	void CheckForInteracts()
 	{
-		var interactTrace = Scene.Trace.Ray(Scene.Camera.Transform.Position, Scene.Camera.Transform.Position + Scene.Camera.Transform.Rotation.Forward * 200f)
-			.WithoutTags("player")
+		if (Input.Down("Score")) return;
+
+		var interactTrace = Scene.Trace.Ray(Scene.Camera.Transform.Position, Scene.Camera.Transform.Position + Scene.Camera.Transform.Rotation.Forward * 1000f)
+			.WithTag("interact")
 			.Run();
 
 

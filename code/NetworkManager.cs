@@ -20,6 +20,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 	/// </summary>
 	[Property] public GameObject PlayerPrefab { get; set; }
 
+	[Property] public GameObject FreezePrefab { get; set; }
+
 	public List<Connection> Connections = new();
 	public Connection Host = null;
 	[Sync] public long HostSteamId { get; set; }
@@ -44,8 +46,6 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 			await Task.DelayRealtimeSeconds(0.1f);
 			GameNetworkSystem.CreateLobby();
 		}
-
-		Scene.Title = LaunchArguments.Map;
 	}
 
 
@@ -62,6 +62,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		{
 			Host = channel;
 			HostSteamId = (long)channel.SteamId;
+
+			Scene.Title = LaunchArguments.Map;
 		}
 
 		if (PlayerPrefab is null)
@@ -69,6 +71,14 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 
 		SpawnPlayer(channel);
 
+		SendMap(Scene.Title);
+	}
+
+	[Broadcast]
+	public void SendMap(string mapName)
+	{
+		var map = Scene.Components.Get<MapInstance>(FindMode.EnabledInSelfAndDescendants);
+		if (map is not null) map.MapName = mapName;
 	}
 
 	public async void SpawnPlayer(Connection channel)

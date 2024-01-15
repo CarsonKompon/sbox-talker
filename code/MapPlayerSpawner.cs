@@ -12,6 +12,7 @@ public class MapPlayerSpawner : Component
 		{
 			mapInstance.MapName = Scene.Title;
 			mapInstance.OnMapLoaded += RespawnPlayers;
+			mapInstance.OnMapUnloaded += CleanUp;
 
 			// already loaded
 			if (mapInstance.IsLoaded)
@@ -58,6 +59,17 @@ public class MapPlayerSpawner : Component
 				pc.EyeAngles = randomSpawnPoint.Rotation.Angles();
 			}
 
+		}
+	}
+
+	void CleanUp()
+	{
+		foreach (var obj in Scene.Children)
+		{
+			if (obj.Tags.Has("interact"))
+			{
+				obj.Destroy();
+			}
 		}
 	}
 }
