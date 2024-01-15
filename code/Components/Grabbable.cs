@@ -9,6 +9,7 @@ using Sandbox;
 public sealed class Grabbable : Component
 {
     Rigidbody rigidBody;
+    HighlightOutline outline;
 
     float HoldDistance = 100f;
 
@@ -34,16 +35,20 @@ public sealed class Grabbable : Component
         await package.MountAsync();
 
         var model = Model.Load(package.GetMeta("PrimaryAsset", ""));
-        var modelRenderer = Components.Get<ModelRenderer>();
+        // var model = Model.Load("models/citizen/citizen.vmdl");
+        var modelRenderer = Components.GetOrCreate<SkinnedModelRenderer>();
         if (modelRenderer is not null)
             modelRenderer.Model = model;
-        var modelCollider = Components.Get<ModelCollider>();
+        var modelCollider = Components.GetOrCreate<ModelCollider>();
         if (modelCollider is not null)
             modelCollider.Model = model;
+        _ = Components.GetOrCreate<Rigidbody>();
     }
 
     protected override void OnUpdate()
     {
+        outline ??= Components.Get<HighlightOutline>(FindMode.EverythingInSelf);
+
         if (rigidBody is not null)
         {
             if (!IsProxy && rigidBody.Velocity.z > 99999)
@@ -54,7 +59,7 @@ public sealed class Grabbable : Component
             rigidBody.Enabled = !Frozen;
         }
 
-        var holder = NetworkManager.Instance.Players.Where(x => x.Network.OwnerId == GameObject.Network.OwnerId).FirstOrDefault();
+        var holder = NetworkManager.Instance.Players.Where(x => x.Network.OwnerId == GameObject.Network.OwnerId && x.Network.OwnerId != Guid.Empty).FirstOrDefault();
         if (holder is not null)
         {
             using (Gizmo.Scope("physlol"))
@@ -64,12 +69,23 @@ public sealed class Grabbable : Component
                 Gizmo.Draw.Line(holder.RightHand.Transform.Position, Transform.Position);
             }
         }
+        if (outline is not null)
+        {
+            outline.Enabled = holder is not null;
+        }
 
         if (!GameObject.Network.IsOwner) return;
 
         var player = PlayerController.Local;
         if (player is not null)
         {
+            var mousewheel = Input.MouseWheel.y;
+            if (mousewheel != 0)
+            {
+                HoldDistance += mousewheel * 100f;
+                if (HoldDistance < 25f) HoldDistance = 25f;
+            }
+
             if (Input.Pressed("attack2"))
             {
                 Frozen = true;
@@ -97,7 +113,8 @@ public sealed class Grabbable : Component
 
     protected override void OnFixedUpdate()
     {
-        rigidBody ??= Components.Get<Rigidbody>();
+        rigidBody ??= Components.Get<Rigidbody>(FindMode.EnabledInSelfAndDescendants);
+        if (rigidBody is null) return;
         rigidBody.Gravity = GameObject.Network.OwnerId == Guid.Empty;
 
         if (!GameObject.Network.IsOwner) return;
@@ -116,7 +133,7 @@ public sealed class Grabbable : Component
             var direction = delta.Normal;
             var speed = distance * 5f;
 
-            if (speed > 800f) speed = 800f;
+            //if (speed > 800f) speed = 800f;
 
             var wishVelocity = direction * speed;
 
@@ -135,6 +152,10 @@ public sealed class Grabbable : Component
                 var yawRotation = Rotation.FromAxis(Vector3.Up, mouseDelta.x * 0.1f);
                 var totalRotation = pitchRotation * yawRotation;
                 Transform.Rotation = totalRotation * Transform.Rotation;
+                // if (rigidBody is not null)
+                // {
+                //     rigidBody.AngularVelocity = Angles.AngleVector(Rotation.Difference(totalRotation * Transform.Rotation, Transform.Rotation).Angles()) * 100f;
+                // }
             }
 
             // }

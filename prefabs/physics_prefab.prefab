@@ -1,18 +1,20 @@
 {
   "RootObject": {
-    "Id": "bcbc08c4-077c-4d06-b8ff-2e0834203dee",
+    "Id": "3bb0e7c2-5731-4ea5-9330-ff59a4771f12",
     "Name": "physics_prefab",
     "Tags": "interact",
     "Enabled": true,
     "Components": [
       {
         "__version": 0,
-        "__type": "ModelRenderer",
+        "__type": "SkinnedModelRenderer",
         "__enabled": true,
         "BodyGroups": 18446744073709551615,
+        "BoneMergeTarget": null,
+        "CreateBoneObjects": false,
         "MaterialGroup": null,
         "MaterialOverride": null,
-        "Model": "models/dev/box.vmdl",
+        "Model": null,
         "RenderType": "On",
         "Tint": "1,1,1,1"
       },
@@ -38,18 +40,37 @@
       },
       {
         "__version": 0,
+        "__type": "ModelPhysics",
+        "__enabled": true,
+        "Locking": {},
+        "Model": null,
+        "Renderer": null
+      },
+      {
+        "__version": 0,
         "__type": "Grabbable",
         "__enabled": true
       },
       {
         "__version": 0,
         "__type": "BoxCollider",
-        "__enabled": true,
-        "Center": "0,0,0",
+        "__enabled": false,
+        "Center": "0,0,5",
         "IsTrigger": false,
-        "Scale": "5,5,5",
+        "Scale": "10,10,10",
         "Static": false,
         "Surface": null
+      },
+      {
+        "__version": 0,
+        "__type": "HighlightOutline",
+        "__enabled": false,
+        "Color": "0,1,0.96667,1",
+        "InsideColor": "0,0,0,0",
+        "InsideObscuredColor": "0,0,0,0",
+        "Material": null,
+        "ObscuredColor": "0,0,0,0.4",
+        "Width": 0.5
       }
     ]
   },

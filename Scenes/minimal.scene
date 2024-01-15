@@ -20,7 +20,7 @@
     {
       "Id": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
       "Name": "Camera",
-      "Position": "0,0,64.00006",
+      "Position": "390.4002,-93.08681,-12223.96",
       "Tags": "maincamera",
       "Enabled": true,
       "Components": [
@@ -106,6 +106,11 @@
           "Intensity": 0.51,
           "Roundness": 0,
           "Smoothness": 1
+        },
+        {
+          "__version": 0,
+          "__type": "Highlight",
+          "__enabled": true
         }
       ]
     },
@@ -129,7 +134,7 @@
           "__version": 0,
           "__type": "HangoutHud",
           "__enabled": true,
-          "PhysicsPrefab": "prefabs/physics_prefab.prefab"
+          "PhysicsPrefab": "prefabs/physics_prefab_new.prefab"
         },
         {
           "__version": 0,
@@ -587,7 +592,7 @@
                                         {
                                           "Id": "3641b394-81f2-4df9-858e-c8d4511e590a",
                                           "Name": "arm_elbow_helper_L",
-                                          "Position": "-0.00000637572,0.000004245673,-0.0000603356",
+                                          "Position": "0,0,0",
                                           "Rotation": "0.0000003278255,-0.00000005960464,-0.7577646,0.6525283",
                                           "Tags": "player",
                                           "Enabled": true
@@ -597,7 +602,7 @@
                                     {
                                       "Id": "92cb3cd8-ab37-42c2-a86b-17a53a901317",
                                       "Name": "arm_upper_L_twist0",
-                                      "Position": "0.00001456221,0.00001427127,-0.00002654615",
+                                      "Position": "0,0,0",
                                       "Tags": "player",
                                       "Enabled": true
                                     },
@@ -821,7 +826,7 @@
                                             {
                                               "Id": "6f76afc3-0e66-4298-a3a8-e20457e56b30",
                                               "Name": "arm_elbow_helper_R",
-                                              "Position": "-0.00002280363,0.00005742495,-0.00009927394",
+                                              "Position": "0,0,0",
                                               "Rotation": "-0.0000007599592,0.0000002980232,0.7577677,-0.6525244",
                                               "Tags": "player",
                                               "Enabled": true
@@ -833,7 +838,7 @@
                                     {
                                       "Id": "be2fef1d-a812-42cb-be3d-b9748180277d",
                                       "Name": "arm_upper_R_twist0",
-                                      "Position": "-0.000008662573,0.00002360065,-0.00005802946",
+                                      "Position": "0,0,0",
                                       "Tags": "player",
                                       "Enabled": true
                                     },
@@ -913,7 +918,7 @@
                         {
                           "Id": "e7a10d30-9127-4084-8a7b-25a3c5708869",
                           "Name": "leg_knee_helper_R",
-                          "Position": "0.000001703463,0.000005609297,-0.00001049039",
+                          "Position": "0,0,0",
                           "Rotation": "0.0000009241048,-0.000001251698,0.7135268,0.7006278",
                           "Tags": "player",
                           "Enabled": true
@@ -930,7 +935,7 @@
                     {
                       "Id": "7beb2932-5373-48ec-b612-07fd9e8854e0",
                       "Name": "leg_upper_R_twist0",
-                      "Position": "0.000007629448,0.000005960508,-0.0000171661",
+                      "Position": "0,0,0",
                       "Rotation": "-0.00000002980232,-0.00000008940697,0.000003069639,1",
                       "Tags": "player",
                       "Enabled": true
@@ -938,7 +943,7 @@
                     {
                       "Id": "8fad3e5d-f2fc-4494-a332-8949b0274133",
                       "Name": "leg_glute_helper_R",
-                      "Position": "0.00002098089,0.000005543324,-0.00001764287",
+                      "Position": "0,0,0",
                       "Rotation": "-0.0000009675612,-0.0000006556511,-0.7071051,0.7071084",
                       "Tags": "player",
                       "Enabled": true
@@ -996,7 +1001,7 @@
                         {
                           "Id": "328ea9f8-bc83-44fa-9625-b0b2f80f7506",
                           "Name": "leg_knee_helper_L",
-                          "Position": "-0.00001538366,0.000003135199,-0.00001049045",
+                          "Position": "0,0,0",
                           "Rotation": "-0.00000301376,-0.000001609325,0.7135276,0.700627",
                           "Tags": "player",
                           "Enabled": true
@@ -1013,14 +1018,14 @@
                     {
                       "Id": "aecea632-f8c9-4e8b-b0dd-199113824c28",
                       "Name": "leg_upper_L_twist0",
-                      "Position": "0.000007629403,0.000009954011,-0.000009059859",
+                      "Position": "0,0,0",
                       "Tags": "player",
                       "Enabled": true
                     },
                     {
                       "Id": "0288a8fb-d054-4d1a-b4dd-b81986ffe188",
                       "Name": "leg_glute_helper_L",
-                      "Position": "0.0000190735,0.000009596423,-0.000009536639",
+                      "Position": "0,0,0",
                       "Rotation": "-0.0000009520198,-0.0000007748604,-0.7071055,0.7071081",
                       "Tags": "player",
                       "Enabled": true
@@ -1188,7 +1193,7 @@
     "TimeScale": 1,
     "UseFixedUpdate": true
   },
-  "Title": "nolankicks.onlyupmap",
+  "Title": "cmb.flatgrass_13",
   "Description": "",
   "__references": []
 }

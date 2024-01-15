@@ -72,6 +72,7 @@ public sealed class PlayerController : Component
 				if (spawnPoints.Length > 0) randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)].Transform.Position;
 
 				Transform.Position = randomSpawnPoint;
+				CharacterController.Velocity = Vector3.Zero;
 			}
 
 			PointState = 0;
@@ -177,7 +178,7 @@ public sealed class PlayerController : Component
 		LookForward = EyeAngles.ToRotation().Forward * 1024;
 
 		// Zoom input
-		if (!Input.Down("Score"))
+		if (!Input.Down("Score") && Grabbing is null)
 		{
 			CameraDistance = Math.Clamp(CameraDistance - Input.MouseWheel.y * 32f, 0f, 256f);
 		}

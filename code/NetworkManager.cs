@@ -63,7 +63,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 			Host = channel;
 			HostSteamId = (long)channel.SteamId;
 
-			Scene.Title = LaunchArguments.Map;
+			if (!string.IsNullOrEmpty(LaunchArguments.Map))
+				Scene.Title = LaunchArguments.Map;
 		}
 
 		if (PlayerPrefab is null)

@@ -1,0 +1,30 @@
+{
+  "RootObject": {
+    "Id": "3bb0e7c2-5731-4ea5-9330-ff59a4771f12",
+    "Name": "physics_prefab_new",
+    "Tags": "interact",
+    "Enabled": true,
+    "Components": [
+      {
+        "__version": 0,
+        "__type": "Grabbable",
+        "__enabled": true
+      },
+      {
+        "__version": 0,
+        "__type": "HighlightOutline",
+        "__enabled": false,
+        "Color": "0,1,0.96667,1",
+        "InsideColor": "0,0,0,0",
+        "InsideObscuredColor": "0,0,0,0",
+        "Material": null,
+        "ObscuredColor": "0,0,0,0.4",
+        "Width": 0.5
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}
