@@ -7,8 +7,8 @@
 @using System.Linq;
 @inherits PanelComponent
 
-<root class="main-menu">
-	
+<root class="main-menu @(Visible ? "" : "hidden")">
+
 	<div class="header">
 		<h1>Talker 🗣️🗣️🗣️</h1>
 		<p>(Walker but multiplayer with Voice Chat)</p>
@@ -36,6 +36,10 @@
 			{
 				@foreach (var lobby in list)
 				{
+					@if(NetworkManager.Instance.Players.Any(x => x.SteamId == lobby.OwnerId))
+					{
+						continue;
+					}
 					<div class="button" onclick=@(() => OpenLobby( lobby ) )>
 
 						<div class="title">
@@ -63,6 +67,7 @@
 
 @code
 {
+	bool Visible = false;
 
 	bool refreshing;
     List<LobbyInformation> list = new();
@@ -76,6 +81,16 @@
 
         _ = RefreshLobbyList();
     }
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if(Input.EscapePressed)
+		{
+			Visible = !Visible;
+		}
+	}
 
 	async Task RefreshLobbyList()
     {
@@ -100,10 +115,10 @@
 
 	void OnPackageSelected( Package package )
     {
-		LaunchArguments.Map = package.FullIdent;
-		GameManager.ActiveScene.Load(GameScene);
+		@* LaunchArguments.Map = package.FullIdent;
+		GameManager.ActiveScene.Load(GameScene); *@
     }
 	
 	
-	protected override int BuildHash() => System.HashCode.Combine( refreshing );
+	protected override int BuildHash() => System.HashCode.Combine( refreshing, Visible );
 }

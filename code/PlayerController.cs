@@ -19,7 +19,7 @@ public sealed class PlayerController : Component
 
 	[Property] public CitizenAnimationHelper AnimationHelper { get; set; }
 
-	public static PlayerController Local => NetworkManager.Instance.Players.FirstOrDefault(x => x.Network.IsOwner);
+	public static PlayerController Local => NetworkManager.Instance.Players.FirstOrDefault(x => x.SteamId == (ulong)Game.SteamId);
 
 	[Sync] public ulong SteamId { get; set; }
 	[Sync] public bool Crouching { get; set; }
@@ -200,6 +200,12 @@ public sealed class PlayerController : Component
 
 		var tr = CharacterController.TraceDirection(Vector3.Up * DuckHeight);
 		return !tr.Hit; // hit nothing - we can!
+	}
+
+	[Broadcast]
+	public void SetName(string name)
+	{
+		GameObject.Name = name;
 	}
 
 	public void CrouchingInput()

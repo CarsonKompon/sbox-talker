@@ -1,0 +1,32 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Talker;
+@inherits Panel
+
+<root>
+
+    <div class="settings">
+
+        <div class="setting">
+            <label class="name">Show Avatars</label>
+            <SwitchControl Value:bind="@TalkerSettings.Chat.ShowAvatars" />
+        </div>
+
+        <div class="setting">
+            <label class="name">Font Size</label>
+            <SliderControl Value:bind="@TalkerSettings.Chat.FontSize" Min=@(10) Max=@(24) Step=@(1) />
+        </div>
+
+        <div class="setting">
+            <label class="name">Chat SFX</label>
+            <SwitchControl Value:bind="@TalkerSettings.Chat.ChatSounds" />
+        </div>
+
+    </div>
+
+</root>
+
+@code
+{
+
+}

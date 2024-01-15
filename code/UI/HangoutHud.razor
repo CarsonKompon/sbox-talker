@@ -23,10 +23,24 @@
 			}
 		</div>
 	} *@
+	@if(Input.Down("Score"))
+	{
+		<div class="player-list">
+			@foreach(var player in NetworkManager.Instance.Players)
+			{
+				var voice = player.Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
+				if(voice is null) continue;
+				<div class="player-entry">
+					<img src=@($"avatar:{player.SteamId}") class="avatar" />
+					<label class="name">@player.GameObject.Name</label>
+				</div>
+			}
+		</div>
+	}
 </root>
 
 @code
 {
 
-	@* protected override int BuildHash() => System.HashCode.Combine( Time.Now ); *@
+	protected override int BuildHash() => System.HashCode.Combine( Time.Now );
 }

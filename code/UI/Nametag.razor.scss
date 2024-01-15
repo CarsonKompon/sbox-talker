@@ -1,0 +1,26 @@
+Nametag
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	justify-content: center;
+	align-items: center;
+	font-size: 32px;
+	font-family: Poppins;
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	gap: 8px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	img
+	{
+		width: 42px;
+		height: 42px;
+		border-radius: 50%;
+	}
+
+}

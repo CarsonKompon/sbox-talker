@@ -1,0 +1,26 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	@if(Player == PlayerController.Local) return;
+	<img src=@($"avatar:{Player.SteamId}")
+	<div class="title">@Name</div>
+</root>
+
+@code
+{
+	PlayerController Player => GameObject.Parent.Components.Get<PlayerController>();
+	string Name => GameObject.Parent.Name;
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		// Look at camera
+		var camera = Scene.Camera;
+		Transform.Rotation = Rotation.LookAt( camera.Transform.Position - Transform.Position, Vector3.Up );
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( Name );
+}

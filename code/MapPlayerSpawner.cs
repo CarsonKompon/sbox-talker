@@ -8,12 +8,12 @@ public sealed class MapPlayerSpawner : Component
 	{
 		base.OnEnabled();
 
-		if ( Components.TryGet<MapInstance>( out var mapInstance ) )
+		if (Components.TryGet<MapInstance>(out var mapInstance))
 		{
 			mapInstance.OnMapLoaded += RespawnPlayers;
 
 			// already loaded
-			if ( mapInstance.IsLoaded )
+			if (mapInstance.IsLoaded)
 			{
 				RespawnPlayers();
 			}
@@ -22,7 +22,7 @@ public sealed class MapPlayerSpawner : Component
 
 	protected override void OnDisabled()
 	{
-		if ( Components.TryGet<MapInstance>( out var mapInstance ) )
+		if (Components.TryGet<MapInstance>(out var mapInstance))
 		{
 			mapInstance.OnMapLoaded -= RespawnPlayers;
 		}
@@ -33,15 +33,13 @@ public sealed class MapPlayerSpawner : Component
 	{
 
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
+		var randomSpawnPoint = spawnPoints[Random.Shared.Next(0, spawnPoints.Length)];
 
-		foreach ( var player in Scene.GetAllComponents<PlayerController>().ToArray() )
+		foreach (var player in Scene.GetAllComponents<PlayerController>().ToArray())
 		{
-			var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
-			if ( randomSpawnPoint is null ) continue;
-
 			player.Transform.Position = randomSpawnPoint.Transform.Position;
 
-			if ( player.Components.TryGet<PlayerController>( out var pc ) )
+			if (player.Components.TryGet<PlayerController>(out var pc))
 			{
 				pc.EyeAngles = randomSpawnPoint.Transform.Rotation.Angles();
 			}

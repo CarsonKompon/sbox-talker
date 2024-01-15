@@ -2,9 +2,9 @@
   "Id": "7106c1ab-d17c-4ceb-98ae-b8bf53696a78",
   "GameObjects": [
     {
-      "Id": "26d0dcec-cc1f-48ab-a028-902e9bc770ca",
+      "Id": "703cd014-0e2f-4461-8e94-141a319072d0",
       "Name": "Network Manager",
-      "Position": "-802.415,68.83928,1006.414",
+      "Networked": true,
       "Enabled": true,
       "Components": [
         {
@@ -19,7 +19,8 @@
     {
       "Id": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
       "Name": "Camera",
-      "Position": "-1102.415,68.83928,1006.414",
+      "Position": "0,0,64",
+      "Tags": "maincamera",
       "Enabled": true,
       "Components": [
         {
@@ -109,8 +110,9 @@
     },
     {
       "Id": "c36003ca-63aa-4e8f-b660-0d4447aadcfa",
-      "Name": "Screen",
+      "Name": "HUD",
       "Position": "-802.415,68.83928,1006.414",
+      "Networked": true,
       "Enabled": true,
       "Components": [
         {
@@ -126,6 +128,17 @@
           "__version": 0,
           "__type": "HangoutHud",
           "__enabled": true
+        },
+        {
+          "__version": 0,
+          "__type": "Chatbox",
+          "__enabled": true
+        },
+        {
+          "__version": 0,
+          "__type": "PauseMenuPanel",
+          "__enabled": true,
+          "GameScene": null
         }
       ]
     },
@@ -139,15 +152,10 @@
           "__version": 0,
           "__type": "MapInstance",
           "__enabled": true,
-          "MapName": "carsonk.home_waiting_room",
+          "MapName": "hld/minejacked",
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
           "UseMapFromLaunch": true
-        },
-        {
-          "__version": 0,
-          "__type": "MapPlayerSpawner",
-          "__enabled": true
         }
       ],
       "Children": []
@@ -155,7 +163,6 @@
     {
       "Id": "ecab56e9-aed9-40fd-9963-373b524d06a0",
       "Name": "Player",
-      "Position": "-1102.415,68.83928,942.4136",
       "Components": [
         {
           "__version": 0,
@@ -185,7 +192,6 @@
         {
           "Id": "230cde41-6498-4e6c-8777-28f4a8ea7ec3",
           "Name": "Player Body",
-          "Position": "0,0,0",
           "Enabled": true,
           "Components": [
             {
@@ -240,7 +246,6 @@
         {
           "Id": "55619bff-2a66-4eba-aef2-4feff11802b6",
           "Name": "Voice",
-          "Position": "0,0,0",
           "Enabled": true,
           "Components": [
             {
@@ -255,6 +260,30 @@
               "Renderer": "230cde41-6498-4e6c-8777-28f4a8ea7ec3",
               "Volume": 1,
               "WorldspacePlayback": true
+            }
+          ]
+        },
+        {
+          "Id": "4432dd60-40a8-44d2-8ba5-f262d312d40d",
+          "Name": "World",
+          "Position": "0,0,77.13345",
+          "Scale": "1.33,1.33,1.33",
+          "Enabled": true,
+          "Components": [
+            {
+              "__version": 0,
+              "__type": "WorldPanel",
+              "__enabled": true,
+              "HorizontalAlign": "Center",
+              "LookAtCamera": false,
+              "PanelSize": "512,256",
+              "RenderScale": 1,
+              "VerticalAlign": "Center"
+            },
+            {
+              "__version": 0,
+              "__type": "Nametag",
+              "__enabled": true
             }
           ]
         }

@@ -6,6 +6,65 @@ HangoutHud
 	right: 0;
 	bottom: 0;
 
+	> .player-list
+	{
+		position: absolute;
+		left: 30%;
+		width: 40%;
+		top: 20%;
+		height: 60%;
+		background-color: rgba( black, 0.8 );
+		border-radius: 24px;
+		flex-direction: column;
+		padding: 16px;
+
+		> .player-entry
+		{
+			background-color: rgba( white, 0.8 );
+			flex-direction: row;
+			padding: 6px;
+			margin-bottom: 5px;
+			align-items: center;
+			align-content: center;
+			border-radius: 4px;
+			overflow: hidden;
+			transition: all 0.1s ease-out;
+			color: black;
+			border-radius: 12px;
+
+			&:intro
+			{
+				opacity: 0;
+				margin-left: 20px;
+			}
+
+			&:outro
+			{
+				opacity: 0;
+				margin-left: 20px;
+				transition: all 0.1s ease-out;
+			}
+
+			.avatar
+			{
+				min-width: 50px;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+			}
+
+			.name
+			{
+				font-size: 28px;
+				font-weight: 500;
+				margin-left: 10px;
+				flex-grow: 1;
+				font-family: Poppins;
+			}
+		}
+	
+	}
+
 	> .voice-list
 	{
 		position: absolute;
