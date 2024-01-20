@@ -1,8 +1,9 @@
 using Sandbox;
+using Sandbox.Network;
 using System;
 using System.Linq;
 
-public class MapPlayerSpawner : Component
+public class MapManager : Component
 {
 	protected override void OnEnabled()
 	{
@@ -10,7 +11,8 @@ public class MapPlayerSpawner : Component
 
 		if (Components.TryGet<MapInstance>(out var mapInstance))
 		{
-			mapInstance.MapName = Scene.Title;
+			if (!MainMenuPanel.IsPrivateLobby)
+				mapInstance.MapName = Scene.Title;
 			mapInstance.OnMapLoaded += RespawnPlayers;
 			mapInstance.OnMapUnloaded += CleanUp;
 
@@ -27,6 +29,7 @@ public class MapPlayerSpawner : Component
 		if (Components.TryGet<MapInstance>(out var mapInstance))
 		{
 			mapInstance.OnMapLoaded -= RespawnPlayers;
+			mapInstance.OnMapUnloaded -= CleanUp;
 		}
 
 	}

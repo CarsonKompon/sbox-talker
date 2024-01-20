@@ -11,7 +11,7 @@
 	
 	<div class="header">
 		<h1>Talker 🗣️🗣️🗣️</h1>
-		<p>(Walker but multiplayer with Voice Chat)</p>
+		<p>(Rudimentary sandbox gamemode)</p>
 	</div>
 	<div class="content">
 		<div class="map-select">
@@ -24,39 +24,47 @@
 				<div class="title">Server List</div>
 			</div>
 
-			@if (refreshing)
-			{
-				<div>Refreshing..</div>
-			}
-			else if (list.Count == 0)
-			{
-				<div>No lobbies were found</div>
-			}
-			else
-			{
-				@foreach (var lobby in list)
+			<div class="content">
+
+				@if (refreshing)
 				{
-					<div class="button" onclick=@(() => OpenLobby( lobby ) )>
-
-						<div class="title">
-							@lobby.Name
-						</div>
-
-						<div class="meta">
-
-							<div class="map">
-								@lobby.Map
-							</div>
-
-							<div class="count">
-								@lobby.Members / @lobby.MaxMembers
-							</div>
-
-						</div>
-
-					</div>
+					<div>Refreshing..</div>
 				}
-			}
+				else if (list.Count == 0)
+				{
+					<div>No lobbies were found</div>
+				}
+				else
+				{
+					@foreach (var lobby in list)
+					{
+						<div class="button" onclick=@(() => OpenLobby( lobby ) )>
+
+							<div class="title">
+								@lobby.Name
+							</div>
+
+							<div class="meta">
+
+								<div class="map">
+									@lobby.Map
+								</div>
+
+								<div class="count">
+									@lobby.Members / @lobby.MaxMembers
+								</div>
+
+							</div>
+
+						</div>
+					}
+				}
+			</div>
+
+			<div class="option">
+				<p>Private Lobby</p>
+				<SwitchControl Value:bind=@MainMenuPanel.IsPrivateLobby />
+			</div>
 		</div>
 	</div>
 </root>
@@ -67,6 +75,8 @@
 	bool refreshing;
     List<LobbyInformation> list = new();
 	[Property] SceneFile GameScene;
+
+	public static bool IsPrivateLobby { get; set; } = false;
 
 	protected override void OnEnabled()
     {
@@ -85,6 +95,7 @@
             StateHasChanged();
 
             list = await GameNetworkSystem.QueryLobbies();
+			list = list.Where( x => x.Map != "PRIVATE_LOBBY" ).ToList();
 
             refreshing = false;
             StateHasChanged();

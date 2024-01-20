@@ -45,6 +45,12 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 			LoadingScreen.Title = "Creating Lobby";
 			await Task.DelayRealtimeSeconds(0.1f);
 			GameNetworkSystem.CreateLobby();
+
+			if (MainMenuPanel.IsPrivateLobby)
+			{
+				await Task.DelayRealtimeSeconds(0.5f);
+				GameNetworkSystem.Disconnect();
+			}
 		}
 	}
 
@@ -63,7 +69,9 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 			Host = channel;
 			HostSteamId = (long)channel.SteamId;
 
-			if (!string.IsNullOrEmpty(LaunchArguments.Map))
+			if (MainMenuPanel.IsPrivateLobby)
+				Scene.Title = "PRIVATE_LOBBY";
+			else if (!string.IsNullOrEmpty(LaunchArguments.Map))
 				Scene.Title = LaunchArguments.Map;
 		}
 
@@ -72,7 +80,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 
 		SpawnPlayer(channel);
 
-		SendMap(Scene.Title);
+		if (!MainMenuPanel.IsPrivateLobby)
+			SendMap(Scene.Title);
 	}
 
 	[Broadcast]
@@ -104,12 +113,12 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		var playerController = player.Components.Get<PlayerController>(FindMode.EverythingInSelfAndDescendants);
 		playerController.SetName(channel.DisplayName);
 
-		var clothing = new ClothingContainer();
-		clothing.Deserialize(channel.GetUserData("avatar"));
-		if (player.Components.TryGet<SkinnedModelRenderer>(out var body, FindMode.EverythingInSelfAndDescendants))
-		{
-			clothing.Apply(body);
-		}
+		// var clothing = new ClothingContainer();
+		// clothing.Deserialize(channel.GetUserData("avatar"));
+		// if (player.Components.TryGet<SkinnedModelRenderer>(out var body, FindMode.EverythingInSelfAndDescendants))
+		// {
+		// 	clothing.Apply(body);
+		// }
 	}
 
 	public void OnDisconnected(Connection channel)
@@ -136,7 +145,7 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		}
 
 		Host = Connections.FirstOrDefault(x => x.SteamId == (ulong)Game.SteamId);
-		HostSteamId = (long)Host.SteamId;
+		HostSteamId = (long)Game.SteamId;
 
 		Log.Info("You are now the host!");
 	}

@@ -35,76 +35,108 @@ HangoutHud
 			opacity: 0;
 		}
 
-		> .spawn-menu
+		> .left
 		{
 			flex-grow: 1;
-			pointer-events: all;
 
-			packagefilterfacet, packagefilterorder
+			> .spawn-menu
 			{
-				background-color: white;
-				color: black;
-			}
-			TextEntry
-			{
-				background-color: rgba(white, 0.2);
-			}
+				flex-grow: 1;
+				pointer-events: all;
 
-			color: white;
+				packagefilterfacet, packagefilterorder
+				{
+					background-color: white;
+					color: black;
+				}
+				TextEntry
+				{
+					background-color: rgba(white, 0.2);
+				}
+
+				color: white;
+			}
 		}
 
-		> .player-list
+		> .right
 		{
 			flex-direction: column;
-			padding: 16px;
-			gap: 8px;
 			flex-shrink: 0;
 			width: 400px;
-			overflow: scroll;
+			padding: 16px;
+			gap: 8px;
 
-			> .player-entry
+			> .player-list
 			{
-				background-color: rgba( white, 0.8 );
-				flex-direction: row;
-				padding: 6px;
-				margin-bottom: 5px;
-				align-items: center;
-				align-content: center;
-				border-radius: 4px;
-				overflow: hidden;
-				transition: all 0.1s ease-out;
+				flex-direction: column;
+				gap: 8px;
+				overflow: scroll;
+				flex-grow: 1;
+
+				> .player-entry
+				{
+					background-color: rgba( white, 0.8 );
+					flex-direction: row;
+					padding: 6px;
+					margin-bottom: 5px;
+					align-items: center;
+					align-content: center;
+					border-radius: 4px;
+					overflow: hidden;
+					transition: all 0.1s ease-out;
+					color: black;
+					border-radius: 12px;
+					flex-shrink: 0;
+
+					&:intro
+					{
+						opacity: 0;
+						margin-left: 20px;
+					}
+
+					&:outro
+					{
+						opacity: 0;
+						margin-left: 20px;
+						transition: all 0.1s ease-out;
+					}
+
+					.avatar
+					{
+						min-width: 50px;
+						width: 50px;
+						height: 50px;
+						border-radius: 50%;
+					}
+
+					.name
+					{
+						font-size: 28px;
+						font-weight: 500;
+						margin-left: 10px;
+						flex-grow: 1;
+						font-family: Poppins;
+					}
+				}
+			}
+
+			> button
+			{
+				background-color: rgba( white, 0.6 );
+				padding: 8px;
+				border-radius: 8px;
+				font-size: 24px;
+				font-family: Poppins;
 				color: black;
-				border-radius: 12px;
+				border: none;
+				cursor: pointer;
+				transition: all 0.1s ease-out;
+				pointer-events: all;
 				flex-shrink: 0;
 
-				&:intro
+				&:hover
 				{
-					opacity: 0;
-					margin-left: 20px;
-				}
-
-				&:outro
-				{
-					opacity: 0;
-					margin-left: 20px;
-					transition: all 0.1s ease-out;
-				}
-
-				.avatar
-				{
-					min-width: 50px;
-					width: 50px;
-					height: 50px;
-					border-radius: 50%;
-				}
-
-				.name
-				{
-					font-size: 28px;
-					font-weight: 500;
-					margin-left: 10px;
-					flex-grow: 1;
-					font-family: Poppins;
+					background-color: rgba( white 1 );
 				}
 			}
 		}
@@ -133,11 +165,11 @@ HangoutHud
 			overflow: hidden;
 			transition: all 0.1s ease-out;
 			left: 0px;
-			animation-name: rainbow-background;
-			animation-duration: 5s;
-			animation-iteration-count: infinite;
-			animation-timing-function: linear;
-			animation-direction: alternate-reverse;
+			// animation-name: rainbow-background;
+			// animation-duration: 5s;
+			// animation-iteration-count: infinite;
+			// animation-timing-function: linear;
+			// animation-direction: alternate-reverse;
 
 			&:intro
 			{

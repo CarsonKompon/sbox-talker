@@ -32,7 +32,6 @@
     {
       "Id": "ae6115dc-1587-4a7c-8798-16aff994a770",
       "Name": "Screen",
-      "Position": "149.9949,149.995,-212.125",
       "Enabled": true,
       "Components": [
         {
@@ -68,23 +67,6 @@
           "SkyColor": "0.05882,0.07451,0.08235,1"
         }
       ]
-    },
-    {
-      "Id": "813c8d10-c62a-4e0d-83b8-0bf32363db3d",
-      "Name": "Object",
-      "Enabled": true,
-      "Components": [
-        {
-          "__version": 0,
-          "__type": "MapInstance",
-          "__enabled": true,
-          "MapName": "cmb.flatgrass_13",
-          "OnMapLoaded": null,
-          "OnMapUnloaded": null,
-          "UseMapFromLaunch": false
-        }
-      ],
-      "Children": []
     },
     {
       "Id": "da24bfa8-7a87-49f4-a87d-9024f7af76ce",

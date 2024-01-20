@@ -24,43 +24,43 @@
 				<div class="title">Server List</div>
 			</div>
 
-			@if (refreshing)
-			{
-				<div>Refreshing..</div>
-			}
-			else if (list.Count == 0)
-			{
-				<div>No lobbies were found</div>
-			}
-			else
-			{
-				@foreach (var lobby in list)
+			<div class="content">
+
+				@if (refreshing)
 				{
-					@if(NetworkManager.Instance.Players.Any(x => x.SteamId == (long)lobby.OwnerId))
-					{
-						continue;
-					}
-					<div class="button" onclick=@(() => OpenLobby( lobby ) )>
-
-						<div class="title">
-							@lobby.Name
-						</div>
-
-						<div class="meta">
-
-							<div class="map">
-								@lobby.Map
-							</div>
-
-							<div class="count">
-								@lobby.Members / @lobby.MaxMembers
-							</div>
-
-						</div>
-
-					</div>
+					<div>Refreshing..</div>
 				}
-			}
+				else if (list.Count == 0)
+				{
+					<div>No lobbies were found</div>
+				}
+				else
+				{
+					@foreach (var lobby in list)
+					{
+						<div class="button" onclick=@(() => OpenLobby( lobby ) )>
+
+							<div class="title">
+								@lobby.Name
+							</div>
+
+							<div class="meta">
+
+								<div class="map">
+									@lobby.Map
+								</div>
+
+								<div class="count">
+									@lobby.Members / @lobby.MaxMembers
+								</div>
+
+							</div>
+
+						</div>
+					}
+				}
+			</div>
+			
 		</div>
 	</div>
 </root>
@@ -143,7 +143,11 @@
 	{
 		var mapInstance = Scene.Components.Get<MapInstance>(FindMode.EnabledInSelfAndDescendants);
 		mapInstance.MapName = mapIdent;
-		Scene.Title = mapIdent;
+
+		if (MainMenuPanel.IsPrivateLobby)
+				Scene.Title = "PRIVATE_LOBBY";
+		else
+			Scene.Title = mapIdent;
 	}
 	
 	protected override int BuildHash() => System.HashCode.Combine( refreshing, Visible );

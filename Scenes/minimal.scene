@@ -80,7 +80,7 @@
             }
           ],
           "Mode": "Additive",
-          "Strength": 0.2,
+          "Strength": 0.1,
           "Threshold": 0.2,
           "ThresholdWidth": 0.2
         },
@@ -111,6 +111,12 @@
           "__version": 0,
           "__type": "Highlight",
           "__enabled": true
+        },
+        {
+          "__version": 0,
+          "__type": "DevCam",
+          "__enabled": true,
+          "DevCamOverlay": "1cdc3dfa-f63c-4557-9068-d44bcbe73ce3"
         }
       ]
     },
@@ -160,15 +166,10 @@
           "__version": 0,
           "__type": "MapInstance",
           "__enabled": true,
-          "MapName": "nolankicks.onlyupmap",
+          "MapName": "baks.louiestuff",
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
           "UseMapFromLaunch": true
-        },
-        {
-          "__version": 0,
-          "__type": "MapPlayerSpawner",
-          "__enabled": true
         }
       ],
       "Children": []
@@ -243,6 +244,12 @@
               "LookAt": null,
               "LookAtEnabled": false,
               "Target": "230cde41-6498-4e6c-8777-28f4a8ea7ec3"
+            },
+            {
+              "__version": 0,
+              "__type": "PlayerDresser",
+              "__enabled": true,
+              "BodyRenderer": "230cde41-6498-4e6c-8777-28f4a8ea7ec3"
             }
           ],
           "Children": [
@@ -1147,8 +1154,8 @@
               "__enabled": true,
               "Loopback": false,
               "Mode": "AlwaysOn",
-              "MorphFadeSpeed": 50,
               "MorphScale": 2,
+              "MorphSmoothTime": 0.1,
               "PushToTalkInput": "voice",
               "Renderer": "230cde41-6498-4e6c-8777-28f4a8ea7ec3",
               "Volume": 1,
@@ -1180,6 +1187,23 @@
               "__enabled": true
             }
           ]
+        }
+      ]
+    },
+    {
+      "Id": "1cdc3dfa-f63c-4557-9068-d44bcbe73ce3",
+      "Name": "Dev Cam Overlay",
+      "Position": "3624.46,-372.876,920.1783",
+      "Enabled": true,
+      "Components": [
+        {
+          "__version": 0,
+          "__type": "ScreenPanel",
+          "__enabled": true,
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
         }
       ]
     }

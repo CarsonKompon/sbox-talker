@@ -47,7 +47,6 @@
 		{
 			width: 500px;
 			flex-direction: column;
-			overflow: scroll;
 			gap: 5px;
 			flex-shrink: 0;
 			background-color: rgba(0, 0, 0, 0.5);
@@ -58,49 +57,64 @@
 				font-size: 48px;
 				font-family: Poppins;
 				color: #fff;
+				flex-shrink: 0;
 			}
 			
-			> .button
+			> .content
 			{
-				background-color: rgba(0, 0, 0, 0.5);
-				color: #aaa;
-				padding: 10px;
-				border-radius: 8px;
-				gap: 2px;
-				width: 280px;
-				cursor: pointer;
-				width: 100%;
 				flex-direction: column;
-				pointer-events: all;
+				flex-grow: 1;
+				gap: 5px;
+				overflow: scroll;
 
-				.title
+				> .button
 				{
-					flex-grow: 1;
-					font-weight: bold;
-					font-size: 32px;
-				}
+					background-color: rgba(0, 0, 0, 0.5);
+					color: #aaa;
+					padding: 10px;
+					border-radius: 8px;
+					gap: 2px;
+					width: 280px;
+					cursor: pointer;
+					width: 100%;
+					flex-direction: column;
+					pointer-events: all;
 
-				.meta
-				{
-					gap: 10px;
-					font-size: 24px;
-
-					.map
+					.title
 					{
 						flex-grow: 1;
+						font-weight: bold;
+						font-size: 32px;
 					}
 
-					.count
+					.meta
 					{
-						white-space: nowrap;
+						gap: 10px;
+						font-size: 24px;
+
+						.map
+						{
+							flex-grow: 1;
+						}
+
+						.count
+						{
+							white-space: nowrap;
+						}
+					}
+
+					&:hover
+					{
+						color: #fff;
+						background-color: rgba(0, 0, 0, 0.8);
 					}
 				}
+			}
 
-				&:hover
-				{
-					color: #fff;
-					background-color: rgba(0, 0, 0, 0.8);
-				}
+			> .option
+			{
+				justify-content: space-between;
+				flex-shrink: 0;
 			}
 		}
 	}		

@@ -3,49 +3,55 @@
 @inherits PanelComponent
 
 <root>
-	@if(PlayerController.Local is not null && PlayerController.Local.IsFirstPerson)
+	@if(PlayerController.Local is not null && PlayerController.Local.IsFirstPerson && !DevCam.On)
 	{
 		<div class="crosshair" />
 	}
 
-	@* @if(PlayerController.Local is not null)
+	@if(PlayerController.Local is not null)
 	{
 		int index = 0;
 
-		<div class="voice-list">
+		@* <div class="voice-list">
 			@foreach(var player in Scene.Components.GetAll<PlayerController>())
 			{
 				var voice = player.Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
 				if(voice is null) continue;
 				index++;
-				if(voice.IsRecording)
+				if(voice.Amplitude > 0.01f)
 				{
-					<div class="voice-entry">
+					<div class="voice-entry" style="left: -@(voice.Amplitude * 200)px;">
 						<img src=@($"avatar:{player.SteamId}") class="avatar" />
-						<label class="name">@player.GameObject.Name</label>
+						<label class="name">@((player.GameObject.Network.OwnerConnection is null) ? Sandbox.Utility.Steam.PersonaName : player.GameObject.Network.OwnerConnection.DisplayName)</label>
 					</div>				
 				}
 			}
+		</div> *@
+	}
+	<div class="menu @((Input.Down("Menu") || (ModelList is not null && ModelList.HasFocus)) ? "" : "hidden")">
+		<div class="left">
+			<div class="spawn-menu">
+				<PackageList @ref="ModelList" ShowFilters="@true" style="padding-bottom: 50px;" Query="type:model sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList>
+			</div>
 		</div>
-	} *@
-	<div class="menu @((Input.Down("Score") || (ModelList is not null && ModelList.HasFocus)) ? "" : "hidden")">
-		<div class="spawn-menu">
-			<PackageList @ref="ModelList" ShowFilters="@true" style="padding-bottom: 50px;" Query="type:model sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList>
-		</div>
-		<div class="player-list">
-			@foreach(var player in NetworkManager.Instance.Players)
-			{
-				var voice = player.Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
-				if(voice is null) continue;
-				<div class="player-entry">
-					<img src=@($"avatar:{player.SteamId}") class="avatar" />
-					<label class="name">@player.GameObject.Name</label>
-					@if((NetworkManager.Instance.Host?.SteamId ?? 0) == (ulong)player.SteamId)
-					{
-						<i>verified</i>
-					}
-				</div>
-			}
+		<div class="right">
+			<div class="player-list">
+				@foreach(var player in NetworkManager.Instance.Players)
+				{
+					var voice = player.Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
+					if(voice is null) continue;
+					<div class="player-entry">
+						<img src=@($"avatar:{player.SteamId}") class="avatar" />
+						<label class="name">@player.GameObject.Name</label>
+						@if((NetworkManager.Instance.Host?.SteamId ?? 0) == (ulong)player.SteamId)
+						{
+							<i>verified</i>
+						}
+					</div>
+				}
+			</div>
+			
+			<button onclick=@(() => PlayerController.Local.Respawn())>Respawn</button>		
 		</div>
 	</div>
 

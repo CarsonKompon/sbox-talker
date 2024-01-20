@@ -47,6 +47,7 @@ public sealed class PlayerController : Component
 
 	protected override void OnUpdate()
 	{
+
 		voice ??= Components.Get<Voice>(FindMode.EnabledInSelfAndChildren);
 
 		if (!IsProxy)
@@ -56,34 +57,34 @@ public sealed class PlayerController : Component
 			MouseInput();
 			CheckForInteracts();
 
-			if (Input.Pressed("Voice"))
+			if (!DevCam.On)
 			{
-				IsNoclipping = !IsNoclipping;
-				if (!IsNoclipping)
+				if (Input.Pressed("Voice"))
 				{
-					CharacterController.Velocity = Input.AnalogMove * CamAngles * 1000.0f;
+					IsNoclipping = !IsNoclipping;
+					if (!IsNoclipping)
+					{
+						CharacterController.Velocity = Input.AnalogMove * CamAngles * 1000.0f;
+					}
 				}
-			}
 
-			if (Input.Pressed("reload"))
-			{
-				var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
-				var randomSpawnPoint = Vector3.Zero;
-				if (spawnPoints.Length > 0) randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)].Transform.Position;
+				if (Input.Pressed("reload"))
+				{
+					Respawn();
+				}
 
-				Transform.Position = randomSpawnPoint;
-				CharacterController.Velocity = Vector3.Zero;
-			}
+				PointState = 0;
+				if (Input.Down("attack1")) PointState = 4;
+				// else if (Input.Down("Menu") && Input.Down("Use")) PointState = 3;
+				else if (Input.Down("Use")) PointState = 2;
+				// else if (Input.Down("Menu")) PointState = 1;
 
-			PointState = 0;
-			if (Input.Down("attack1")) PointState = 4;
-			else if (Input.Down("Menu") && Input.Down("Use")) PointState = 3;
-			else if (Input.Down("Use")) PointState = 2;
-			else if (Input.Down("Menu")) PointState = 1;
+				if (Input.Pressed("Flashlight"))
+				{
+					HasFlashlight = !HasFlashlight;
+				}
 
-			if (Input.Pressed("Flashlight"))
-			{
-				HasFlashlight = !HasFlashlight;
+				Transform.Rotation = new Angles(0, EyeAngles.yaw, 0);
 			}
 
 			if (Input.Pressed("slot1")) Pose = 0;
@@ -94,13 +95,11 @@ public sealed class PlayerController : Component
 			if (Input.Pressed("slot6")) Pose = 5;
 			if (Input.Pressed("slot7")) Pose = 6;
 			if (Input.Pressed("slot8")) Pose = 7;
-
-			Transform.Rotation = new Angles(0, EyeAngles.yaw, 0);
 		}
 
 		UpdateAnimation();
 
-		var renderType = (!IsProxy && IsFirstPerson) ? ModelRenderer.ShadowRenderType.ShadowsOnly : ModelRenderer.ShadowRenderType.On;
+		var renderType = (!IsProxy && IsFirstPerson && !DevCam.On) ? ModelRenderer.ShadowRenderType.ShadowsOnly : ModelRenderer.ShadowRenderType.On;
 		foreach (var modelRenderer in AnimationHelper.Components.GetAll<ModelRenderer>())
 		{
 			modelRenderer.RenderType = renderType;
@@ -114,7 +113,7 @@ public sealed class PlayerController : Component
 		if (IsProxy)
 			return;
 
-		if (IsNoclipping)
+		if (IsNoclipping && !DevCam.On)
 		{
 			var movement = Input.AnalogMove * CamAngles * Time.Delta * 1000.0f;
 			if (Input.Down("run")) movement *= 3;
@@ -136,6 +135,7 @@ public sealed class PlayerController : Component
 
 	private void MouseInput()
 	{
+		if (DevCam.On) return;
 		bool updateEyes = true;
 		if (Grabbing is not null && Input.Down("use"))
 		{
@@ -178,7 +178,7 @@ public sealed class PlayerController : Component
 		LookForward = EyeAngles.ToRotation().Forward * 1024;
 
 		// Zoom input
-		if (!Input.Down("Score") && Grabbing is null)
+		if (!Input.Down("Menu") && Grabbing is null)
 		{
 			CameraDistance = Math.Clamp(CameraDistance - Input.MouseWheel.y * 32f, 0f, 256f);
 		}
@@ -210,10 +210,17 @@ public sealed class PlayerController : Component
 
 	private void MovementInput()
 	{
-		if (CharacterController is null)
-			return;
+		if (CharacterController is null) return;
 
 		var cc = CharacterController;
+
+
+		if (DevCam.On)
+		{
+			WishVelocity = 0;
+			cc.Velocity = 0;
+			return;
+		}
 
 		Vector3 halfGravity = Scene.PhysicsWorld.Gravity * Time.Delta * 0.5f;
 
@@ -291,6 +298,7 @@ public sealed class PlayerController : Component
 
 	public void CrouchingInput()
 	{
+		if (DevCam.On) return;
 		WishCrouch = Input.Down("duck");
 
 		if (WishCrouch == Crouching)
@@ -330,7 +338,7 @@ public sealed class PlayerController : Component
 
 	private void UpdateCamera()
 	{
-		if (IsProxy) return;
+		if (IsProxy || DevCam.On) return;
 
 		var camera = Scene.GetAllComponents<CameraComponent>().Where(x => x.IsMainCamera).FirstOrDefault();
 		if (camera is null) return;
@@ -412,7 +420,8 @@ public sealed class PlayerController : Component
 
 	void CheckForInteracts()
 	{
-		if (Input.Down("Score")) return;
+		if (Input.Down("Menu")) return;
+		if (DevCam.On) return;
 
 		var interactTrace = Scene.Trace.Ray(Scene.Camera.Transform.Position, Scene.Camera.Transform.Position + Scene.Camera.Transform.Rotation.Forward * 1000f)
 			.WithTag("interact")
@@ -430,6 +439,16 @@ public sealed class PlayerController : Component
 				}
 			}
 		}
+	}
+
+	public void Respawn()
+	{
+		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
+		var randomSpawnPoint = Vector3.Zero;
+		if (spawnPoints.Length > 0) randomSpawnPoint = spawnPoints[Random.Shared.Int(0, spawnPoints.Length - 1)].Transform.Position;
+
+		Transform.Position = randomSpawnPoint;
+		CharacterController.Velocity = Vector3.Zero;
 	}
 
 }
