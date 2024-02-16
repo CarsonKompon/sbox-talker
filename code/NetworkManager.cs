@@ -108,7 +108,7 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 
 		// Spawn this object and make the client the owner
 		var player = PlayerPrefab.Clone(startLocation, name: $"Player - {channel.DisplayName}");
-		player.Network.Spawn(channel);
+		player.NetworkSpawn(channel);
 
 		var playerController = player.Components.Get<PlayerController>(FindMode.EverythingInSelfAndDescendants);
 		playerController.SetName(channel.DisplayName);
