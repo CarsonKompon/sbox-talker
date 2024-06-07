@@ -60,7 +60,7 @@
 					}
 				}
 			</div>
-			
+
 		</div>
 	</div>
 </root>
@@ -70,60 +70,61 @@
 	bool Visible = false;
 
 	bool refreshing;
-    List<LobbyInformation> list = new();
+	List<LobbyInformation> list = new();
 	[Property] SceneFile GameScene;
 
 	protected override void OnEnabled()
-    {
-        base.OnEnabled();
+	{
+		base.OnEnabled();
 
-        Assert.True(GameObject.IsValid());
+		Assert.True(GameObject.IsValid());
 
-        _ = RefreshLobbyList();
-    }
+		_ = RefreshLobbyList();
+	}
 
 	protected override void OnUpdate()
 	{
 		base.OnUpdate();
 
-		if(Input.EscapePressed)
+		if (Input.EscapePressed)
 		{
+			Input.EscapePressed = false;
 			Visible = !Visible;
 		}
 	}
 
 	async Task RefreshLobbyList()
-    {
-        while ( true )
-        {
-            refreshing = true;
-            StateHasChanged();
+	{
+		while (true)
+		{
+			refreshing = true;
+			StateHasChanged();
 
-            list = await GameNetworkSystem.QueryLobbies();
+			list = await GameNetworkSystem.QueryLobbies();
 
-            refreshing = false;
-            StateHasChanged();
+			refreshing = false;
+			StateHasChanged();
 
-            await Task.DelayRealtimeSeconds( 5.0f );
-        }
-    }
+			await Task.DelayRealtimeSeconds(5.0f);
+		}
+	}
 
-	void OpenLobby( LobbyInformation lobby )
-    {
-        GameNetworkSystem.Connect( lobby.LobbyId );
-    }
+	void OpenLobby(LobbyInformation lobby)
+	{
+		GameNetworkSystem.Connect(lobby.LobbyId);
+	}
 
-	void OnPackageSelected( Package package )
-    {
+	void OnPackageSelected(Package package)
+	{
 		@* LaunchArguments.Map = package.FullIdent;
-		GameManager.ActiveScene.Load(GameScene); *@
+GameManager.ActiveScene.Load(GameScene); *@
 
-		foreach(var connection in NetworkManager.Instance.Connections)
+		foreach (var connection in NetworkManager.Instance.Connections)
 		{
 			Log.Info($"Connection: {connection.SteamId} {connection == NetworkManager.Instance.Host}");
 		}
 
-		if(Game.SteamId == NetworkManager.Instance.HostSteamId)
+		if (Game.SteamId == NetworkManager.Instance.HostSteamId)
 		{
 			ChangeMap(package.FullIdent);
 			return;
@@ -132,12 +133,12 @@
 		@* ChangeMap(package.FullIdent); *@
 
 		@* if(NetworkManager.Instance.Connections.Any(x => x.SteamId == (ulong)Game.SteamId && x.IsHost))
-		{
-			ChangeMap(package.FullIdent);
-			return;
-		} *@
-    }
-	
+{
+ChangeMap(package.FullIdent);
+return;
+} *@
+	}
+
 	[Broadcast]
 	void ChangeMap(string mapIdent)
 	{
@@ -145,10 +146,10 @@
 		mapInstance.MapName = mapIdent;
 
 		if (MainMenuPanel.IsPrivateLobby)
-				Scene.Title = "PRIVATE_LOBBY";
+			Scene.Title = "PRIVATE_LOBBY";
 		else
 			Scene.Title = mapIdent;
 	}
-	
-	protected override int BuildHash() => System.HashCode.Combine( refreshing, Visible );
+
+	protected override int BuildHash() => System.HashCode.Combine(refreshing, Visible);
 }
